@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Thống Gợi Ý Học Bổng Thông Minh & Lộ Trình (AI pgvector)</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css?v=2.2">
+</head>
+<body>
+    <!-- Background Glow Effects -->
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="badge-tag">
+                <span class="pulse-dot"></span> PostgreSQL 17 + pgvector Cloud Active
+            </div>
+            <h1 class="main-title">Hệ Thống Gợi Ý Học Bổng & Gap Analysis</h1>
+            <p class="subtitle">
+                Ứng dụng <strong>Vector Embeddings (Semantic Match)</strong> kết hợp <strong>Multi-Factor Strength Scoring</strong>. Tự động xếp hạng ưu tiên Top 1 cho ứng viên có chỉ số cao & nhiều, đồng thời xuất lộ trình hành động khi chưa đạt chuẩn.
+            </p>
+
+            <!-- Quick Presets -->
+            <div class="preset-wrapper">
+                <span class="preset-label">Nạp nhanh hồ sơ mẫu:</span>
+                <button type="button" class="btn-preset preset-strong" id="btn-preset-strong">
+                    ✨ Hồ Sơ Khủng (Top 1 Đạt Chuẩn)
+                </button>
+                <button type="button" class="btn-preset preset-gap" id="btn-preset-gap">
+                    ⚠️ Hồ Sơ Dưới Chuẩn (Hiện Gợi Ý & Lộ Trình)
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content Grid -->
+        <main class="grid-layout">
+            <!-- Left Panel: Input Form -->
+            <section class="card glass-panel form-section">
+                <div class="card-header">
+                    <div class="header-icon">📝</div>
+                    <div>
+                        <h2>Hồ Sơ Năng Lực Ứng Viên</h2>
+                        <p class="section-desc">Dữ liệu sẽ được tự động lưu lên Supabase Database</p>
+                    </div>
+                </div>
+
+                <form id="profile-form">
+                    <div class="form-group">
+                        <label for="name">Họ và tên ứng viên <span class="req">*</span></label>
+                        <input type="text" id="name" name="name" placeholder="Ví dụ: Nguyễn Trọng Mạnh Tiến" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="degree_target">Bậc học mong muốn</label>
+                            <select id="degree_target" name="degree_target">
+                                <option value="Thạc sĩ">Thạc sĩ (Master)</option>
+                                <option value="Tiến sĩ">Tiến sĩ (PhD)</option>
+                                <option value="Cử nhân">Cử nhân (Bachelor)</option>
+                                <option value="Trao đổi">Trao đổi sinh viên</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="major">Chuyên ngành hiện tại / Nguyện vọng</label>
+                            <input type="text" id="major" name="major" placeholder="Ví dụ: Khoa học Máy tính / AI" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="research_interest">Định hướng nghiên cứu & Mục tiêu học thuật <span class="vector-hint">(Dùng để sinh Vector 1536D)</span></label>
+                        <textarea id="research_interest" name="research_interest" rows="3" placeholder="Mô tả hướng nghiên cứu (VD: Deep Learning, Natural Language Processing, Audio and Speech Processing...)" required></textarea>
+                    </div>
+
+                    <!-- Metrics Grid -->
+                    <div class="metrics-grid">
+                        <div class="metric-box">
+                            <div class="metric-label-row">
+                                <label for="gpa">Điểm GPA (Thang 4.0)</label>
+                                <span class="metric-badge" id="gpa-badge">3.40 / 4.0</span>
+                            </div>
+                            <input type="number" id="gpa" name="gpa" min="1.0" max="4.0" step="0.05" value="3.40" required>
+                        </div>
+
+                        <div class="metric-box">
+                            <div class="metric-label-row">
+                                <label for="ielts">IELTS (Thang 9.0)</label>
+                                <span class="metric-badge" id="ielts-badge">Band 6.5</span>
+                            </div>
+                            <input type="number" id="ielts" name="ielts" min="4.0" max="9.0" step="0.5" value="6.5" required>
+                        </div>
+
+                        <div class="metric-box">
+                            <div class="metric-label-row">
+                                <label for="work_exp_years">Kinh nghiệm (Năm)</label>
+                                <span class="metric-badge" id="exp-badge">1.5 năm</span>
+                            </div>
+                            <input type="number" id="work_exp_years" name="work_exp_years" min="0" max="15" step="0.5" value="1.5">
+                        </div>
+
+                        <div class="metric-box">
+                            <div class="metric-label-row">
+                                <label for="research_papers">Bài báo NCKH (Papers)</label>
+                                <span class="metric-badge" id="papers-badge">1 bài</span>
+                            </div>
+                            <input type="number" id="research_papers" name="research_papers" min="0" max="20" step="1" value="1">
+                        </div>
+
+                        <div class="metric-box full-width">
+                            <div class="metric-label-row">
+                                <label for="awards">Số giải thưởng học thuật / thi đấu</label>
+                                <span class="metric-badge" id="awards-badge">1 giải</span>
+                            </div>
+                            <input type="number" id="awards" name="awards" min="0" max="20" step="1" value="1">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-submit" id="btn-submit">
+                        <span class="btn-text">🚀 Phân Tích & So Khớp Học Bổng</span>
+                        <div class="spinner" id="spinner" style="display: none;"></div>
+                    </button>
+                </form>
+            </section>
+
+            <!-- Right Panel: Results & Roadmap -->
+            <section class="card glass-panel result-section" id="result-section">
+                <!-- Initial Placeholder -->
+                <div class="placeholder-state" id="placeholder-state">
+                    <div class="placeholder-icon">🎯</div>
+                    <h3>Sẵn sàng phân tích hồ sơ</h3>
+                    <p>Hãy điền thông tin hoặc bấm thử các nút hồ sơ mẫu phía trên để hệ thống tự động tính toán điểm sức mạnh và đối chiếu với 50 học bổng trên Supabase.</p>
+                </div>
+
+                <!-- Dynamic Results Container -->
+                <div class="results-content" id="results-content" style="display: none;">
+                    <!-- Candidate Score Overview -->
+                    <div class="candidate-overview" id="candidate-overview">
+                        <div class="overview-left">
+                            <h3 id="res-candidate-name">Nguyễn Văn A</h3>
+                            <div class="status-pill" id="res-overall-status">ĐỦ ĐIỀU KIỆN ỨNG TUYỂN</div>
+                        </div>
+                        <div class="overview-right">
+                            <div class="score-card">
+                                <span class="score-title">Profile Strength Score</span>
+                                <div class="score-number" id="res-profile-strength">78.5<span>/100</span></div>
+                                <span class="score-desc">Chỉ số năng lực định lượng</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tabs Navigation -->
+                    <div class="tabs-nav">
+                        <button type="button" class="tab-btn active" data-tab="tab-matched">
+                            🎓 Học Bổng Đạt Chuẩn (<span id="count-matched">0</span>)
+                        </button>
+                        <button type="button" class="tab-btn tab-alert" data-tab="tab-roadmap" id="btn-tab-roadmap">
+                            🗺️ Lộ Trình & Gap (<span id="count-gaps">0</span>)
+                        </button>
+                        <button type="button" class="tab-btn" data-tab="tab-safety">
+                            🛡️ Dự Phòng Vừa Sức (<span id="count-safety">0</span>)
+                        </button>
+                    </div>
+
+                    <!-- Tab 1: Matched Scholarships (Top 1 -> Down) -->
+                    <div class="tab-pane active" id="tab-matched">
+                        <div class="scholarship-list" id="matched-list"></div>
+                    </div>
+
+                    <!-- Tab 2: Actionable Roadmap & Gap Analysis -->
+                    <div class="tab-pane" id="tab-roadmap">
+                        <!-- Alert Box for Gaps -->
+                        <div class="gap-alert-box">
+                            <h4>⚠️ Phát hiện các tiêu chí chưa đạt ngưỡng sàn:</h4>
+                            <div class="gap-tags-container" id="gap-tags-container"></div>
+                        </div>
+
+                        <!-- Step-by-Step Action Plan -->
+                        <h4 class="roadmap-heading">📌 Kế hoạch hành động từng giai đoạn để đạt học bổng:</h4>
+                        <div class="roadmap-timeline" id="roadmap-timeline"></div>
+
+                        <!-- Target Scholarships Disqualified -->
+                        <div class="ineligible-section" id="ineligible-section" style="margin-top: 28px; display: none;">
+                            <h4 class="roadmap-heading" style="color: #fca5a5; border-bottom: 1px solid rgba(239, 68, 68, 0.2); padding-bottom: 8px;">
+                                🎯 Các học bổng mục tiêu bạn bị loại vòng hồ sơ (Cần nâng chuẩn để ứng tuyển):
+                            </h4>
+                            <p style="font-size: 13px; color: #94a3b8; margin-bottom: 14px;">
+                                Dưới đây là các học bổng đúng chuyên môn nguyện vọng của bạn nhất nhưng hiện bị thiếu điểm sàn. Hãy dùng lộ trình phía trên để bù đắp tiêu chí:
+                            </p>
+                            <div class="scholarship-list" id="ineligible-list"></div>
+                        </div>
+                    </div>
+
+                    <!-- Tab 3: Safety Alternatives -->
+                    <div class="tab-pane" id="tab-safety">
+                        <p class="tab-desc">
+                            🛡️ Danh sách học bổng có <strong>điều kiện thấp hơn hoặc bằng (≤)</strong> so với hồ sơ bạn đã nhập. Bạn hoàn toàn <strong>đạt 100% tiêu chí</strong> của các học bổng này và được xếp hạng ưu tiên theo độ tương đồng chuyên môn (Vector):
+                        </p>
+                        <div class="scholarship-list" id="safety-list"></div>
+                    </div>
+
+                </div>
+            </section>
+        </main>
+
+        <footer class="app-footer">
+            <p>Hệ thống gợi ý học bổng thông minh © 2026 | Công nghệ: <strong>PostgreSQL 17, pgvector, HNSW, Python, Flask</strong></p>
+        </footer>
+    <!-- Modal Xem Chi Tiết Đầy Đủ Học Bổng -->
+    <div id="scholarship-modal" class="modal-backdrop" style="display: none;">
+        <div class="modal-card glass-panel">
+            <div class="modal-header">
+                <span class="modal-source-badge" id="modal-source">🌐 Nguồn: Ybox.vn</span>
+                <button type="button" class="btn-close-modal" id="btn-close-modal" aria-label="Đóng">✕</button>
+            </div>
+            
+            <h2 id="modal-title" class="modal-title">Tên học bổng chi tiết</h2>
+            
+            <div class="modal-meta-grid">
+                <div class="modal-meta-box">
+                    <span class="meta-icon">📍</span>
+                    <div>
+                        <div class="meta-label">Quốc gia</div>
+                        <div class="meta-val" id="modal-country">Hàn Quốc</div>
+                    </div>
+                </div>
+                <div class="modal-meta-box">
+                    <span class="meta-icon">🎓</span>
+                    <div>
+                        <div class="meta-label">Bậc học</div>
+                        <div class="meta-val" id="modal-degree">Thạc sĩ</div>
+                    </div>
+                </div>
+                <div class="modal-meta-box">
+                    <span class="meta-icon">⏰</span>
+                    <div>
+                        <div class="meta-label">Hạn nộp hồ sơ</div>
+                        <div class="meta-val highlight" id="modal-deadline">15/12/2026</div>
+                    </div>
+                </div>
+                <div class="modal-meta-box">
+                    <span class="meta-icon">📚</span>
+                    <div>
+                        <div class="meta-label">Chuyên ngành</div>
+                        <div class="meta-val" id="modal-major">Mọi ngành</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-body-content">
+                <div class="modal-section">
+                    <h4>💰 Mức tài trợ & Chi tiết quyền lợi:</h4>
+                    <div class="modal-text-box" id="modal-funding"></div>
+                </div>
+
+                <div class="modal-section">
+                    <h4>📊 Tiêu chuẩn điều kiện sàn:</h4>
+                    <div class="modal-criteria-pills" id="modal-criteria"></div>
+                </div>
+
+                <div class="modal-section">
+                    <h4>📑 Hồ sơ cần chuẩn bị (Checklist):</h4>
+                    <div class="modal-text-box" id="modal-checklist"></div>
+                </div>
+
+                <div class="modal-section">
+                    <h4>⚖️ Cam kết & Ràng buộc sau nhận học bổng:</h4>
+                    <div class="modal-text-box" id="modal-commitment"></div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <a id="modal-source-link" href="#" target="_blank" class="btn-modal-visit">
+                    🚀 Mở bài viết gốc trên trang nguồn cào ↗
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/script.js?v=2.2"></script>
+</body>
+</html>

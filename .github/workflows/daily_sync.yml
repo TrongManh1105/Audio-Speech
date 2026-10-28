@@ -1,0 +1,30 @@
+name: Daily Scholarship Crawl & Supabase Sync
+
+on:
+  schedule:
+    # Chạy tự động lúc 23:00 giờ Việt Nam mỗi ngày (16:00 UTC)
+    - cron: '0 16 * * *'
+  workflow_dispatch: # Cho phép bấm chạy thủ công trên web GitHub
+
+jobs:
+  crawl-and-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Dependencies
+        run: |
+          pip install requests beautifulsoup4 cloudscraper psycopg2-binary
+
+      - name: Run Daily Sync to Supabase
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          cd scholarship_system
+          python daily_crawler_sync.py

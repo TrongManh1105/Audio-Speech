@@ -1,0 +1,29 @@
+# Video & Media
+*.MOV
+*.mov
+*.mp4
+*.avi
+*.mkv
+
+# Documents & Large local files
+*.pdf
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.env
+venv/
+.venv/
+env/
+
+# IDE & OS
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
+
+# Scratch & Temporary
+scholarship_system/data/*.csv.bak
+*.exe
+
