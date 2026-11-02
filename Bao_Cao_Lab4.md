@@ -250,3 +250,4 @@ Bài thực hành Lab 4 đã cung cấp cái nhìn toàn diện và sâu sắc v
 3. **Neural TTS:** Đại diện cho đỉnh cao công nghệ hiện đại, mang lại giọng nói tự nhiên gần như không thể phân biệt với con người (MOS 4.69/5.0), mở ra tiềm năng ứng dụng không giới hạn trong kỷ nguyên AI.
 
 Toàn bộ mã nguồn, dữ liệu âm thanh, hình ảnh và báo cáo đã được đóng gói hoàn chỉnh và đồng bộ lên kho lưu trữ GitHub của dự án.
+

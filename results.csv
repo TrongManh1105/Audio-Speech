@@ -1,0 +1,11 @@
+file,true,pred,top1_score,top2_score
+khong_04.wav,khong,khong,15.79,28.396
+khong_05.wav,khong,khong,13.353,25.932
+mot_04.wav,mot,mot,15.608,24.971
+mot_05.wav,mot,mot,11.012,25.431
+hai_04.wav,hai,hai,10.758,27.879
+hai_05.wav,hai,hai,15.527,27.702
+ba_04.wav,ba,ba,14.815,28.093
+ba_05.wav,ba,ba,9.279,28.958
+bon_04.wav,bon,bon,16.162,22.932
+bon_05.wav,bon,bon,13.067,22.433

@@ -139,3 +139,4 @@ with open("Lab04.ipynb", "w", encoding="utf-8") as f:
     json.dump(nb, f, indent=2, ensure_ascii=False)
 
 print("Đã nhúng outputs và hình ảnh hoàn chỉnh vào Lab04.ipynb!")
+
