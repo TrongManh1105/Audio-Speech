@@ -1,6 +1,6 @@
 # CSE457 - XỬ LÝ ÂM THANH VÀ TIẾNG NÓI (AUDIO & SPEECH PROCESSING)
 **Trường Đại học Thủy Lợi — Khoa Công nghệ Thông tin — Bộ môn Trí tuệ Nhân tạo**  
-**Sinh viên thực hiện:** Nguyễn Trọng Mạnh Tiến  
+**Sinh viên thực hiện:** Nguyễn Trọng Mạnh Tiền
 **Mã sinh viên:** 2351260689 | **Lớp:** 65TTNT (Trí tuệ nhân tạo K65)  
 **Giảng viên hướng dẫn:** Bộ môn Trí tuệ Nhân tạo - CSE457  
 
